@@ -71,16 +71,22 @@ const Window = ({ windowData, desktopItem, isActive, onClose, onMinimize, onMaxi
       height: windowData.size.height,
     };
 
+  // Handle double-click on header to toggle maximize/restore
+  const handleDoubleClick = () => {
+    onMaximize(windowData.id);
+  };
+
   return (
     <div
-      className="absolute bg-gray-300 border-2 border-gray-400 flex flex-col shadow-[2px_2px_0px_#000,-2px_-2px_0px_#fff]"
-      style={{ ...windowStyle, zIndex: windowData.zIndex, minWidth: '400px', minHeight: '300px' }}
+      className="absolute bg-gray-300 border-2 border-gray-400 flex flex-col shadow-[2px_2px_0px_#000,-2px_-2px_0px_#fff] max-w-[100vw] max-h-[calc(100vh-48px)]"
+      style={{ ...windowStyle, zIndex: windowData.zIndex, minWidth: '300px', minHeight: '200px' }}
       onMouseDown={() => onBringToFront(windowData.id)}
     >
       <div
         className={`px-2 py-1 flex items-center justify-between border-b-2 border-gray-400 cursor-move ${isActive ? 'bg-gradient-to-r from-blue-600 to-blue-800 text-white' : 'bg-gradient-to-r from-gray-500 to-gray-700 text-gray-200'
           }`}
         onMouseDown={(e) => onMouseDown(e, windowData.id)}
+        onDoubleClick={handleDoubleClick} // Add double-click handler
       >
         <div className="flex items-center space-x-2 pointer-events-none">
           <span className="text-lg">{desktopItem?.icon}</span>
@@ -107,11 +113,7 @@ const Window = ({ windowData, desktopItem, isActive, onClose, onMinimize, onMaxi
           </button>
         </div>
       </div>
-      <div className="flex-1 bg-white overflow-hidden window-content">{renderContent(windowData.id)}</div>
-      {/* <div className="bg-gray-200 border-t-2 border-gray-400 px-2 py-1 flex justify-between items-center text-xs">
-        <span>Ready</span>
-        <span>{currentTime.toLocaleTimeString()}</span>
-      </div> */}
+      <div className="flex-1 bg-white overflow-auto window-content">{renderContent(windowData.id)}</div>
     </div>
   );
 };
@@ -451,17 +453,24 @@ const RetroPortfolio = () => {
   }, []);
 
   const openWindow = (windowId) => {
+    // Detect mobile view (e.g., viewport width <= 640px)
+    const isMobile = window.innerWidth <= 640;
+    const windowWidth = isMobile ? window.innerWidth : 700;
+    const windowHeight = isMobile ? window.innerHeight - 48 : 500; // Subtract taskbar height
+    const positionX = isMobile ? 0 : 100 + Object.keys(openWindows).length * 30;
+    const positionY = isMobile ? 0 : 50 + Object.keys(openWindows).length * 30;
+
     const newWindow = {
       id: windowId,
-      position: { x: 100 + Object.keys(openWindows).length * 30, y: 50 + Object.keys(openWindows).length * 30 },
-      size: { width: 700, height: 500 },
-      isMaximized: false,
+      position: { x: positionX, y: positionY },
+      size: { width: windowWidth, height: windowHeight },
+      isMaximized: isMobile, // Maximize by default in mobile view
       isMinimized: false,
       zIndex: Object.keys(openWindows).length + 10,
     };
     setOpenWindows((prev) => ({ ...prev, [windowId]: newWindow }));
     setActiveWindow(windowId);
-  };
+  }
 
   const handleDesktopItemClick = (item) => {
     if (item.isExternal) {
