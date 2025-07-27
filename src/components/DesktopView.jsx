@@ -7,7 +7,7 @@ const desktopItems = [
   { id: 'about', name: 'About Me', icon: '👨‍💻', windowTitle: 'About Me - Personal Information' },
   { id: 'skills', name: 'My Skills', icon: '⚙️', windowTitle: 'Skills.exe - Technical Abilities' },
   { id: 'projects', name: 'Projects', icon: '📁', windowTitle: 'Projects - File Explorer' },
-  { id: 'contact', name: 'Contact', icon: '📧', windowTitle: 'Contact - Outlook Express' },
+  { id: 'contact', name: 'Contact', icon: '📧', windowTitle: 'Contact Information' },
 ];
 
 // Start Menu Items Configuration
