@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { ImCopy } from 'react-icons/im';
 
 // Desktop Items Configuration
@@ -394,7 +395,7 @@ const ContactWindow = () => {
           <h3 className="font-bold text-lg mb-3 bg-green-600 text-white px-2 py-1">🔗 Professional Links</h3>
           <div className="bg-white border border-gray-400 p-4 space-y-3 text-sm">
             <div className="flex items-center space-x-3">
-              <span className="text-xl">💼</span>
+              <span className="text-xl"><FaLinkedin size={25} /></span>
               <div>
                 <strong>LinkedIn:</strong><br />
                 <a href="https://www.linkedin.com/in/ammar-m-odeh-abbb36107" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
@@ -403,7 +404,7 @@ const ContactWindow = () => {
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <span className="text-xl">🐙</span>
+              <span className="text-xl"><FaGithub size={25} /></span>
               <div>
                 <strong>GitHub:</strong><br />
                 <a href="https://github.com/ammarmodeh" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
